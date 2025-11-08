@@ -1,0 +1,10 @@
+# Violence Detection - Python/ML Project
+*.py linguist-detectable=true
+*.ipynb linguist-detectable=true
+*.md linguist-documentation=true
+*.pdf linguist-documentation=true
+*.h5 linguist-vendored
+
+# Mark model files as data
+*.h5 linguist-generated=false
+modelnew.h5 linguist-vendored

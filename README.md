@@ -10,7 +10,7 @@
 
 **Real-time violence detection system using deep learning for enhanced public safety**
 
-[Features](#-features) • [Model Architecture](#-model-architecture) • [Installation](#-installation) • [Demo](#-demo)
+[Features](#-features) • [Model Architecture](#️-model-architecture) • [Installation](#-installation) • [Demo](#-demo)
 
 </div>
 

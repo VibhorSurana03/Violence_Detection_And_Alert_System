@@ -62,7 +62,7 @@ This AI-powered Violence Detection System uses state-of-the-art deep learning te
 
 ## 🏗️ Model Architecture
 
-### **MobileNetV2 + Custom Classifier**
+### **MobileNetV2 + Binary Classifier**
 
 ```
 Input Video (128x128x3)
@@ -76,38 +76,29 @@ Input Video (128x128x3)
          ↓
    Global Average Pooling
          ↓
-   Dense Layer (256 units)
+   Dense Layer (1 unit, Sigmoid)
          ↓
-   Dropout (0.5)
-         ↓
-   Dense Layer (128 units)
-         ↓
-   Dropout (0.3)
-         ↓
-   Output Layer (2 classes)
-   [Non-Violence, Violence]
+   Binary Output [0 or 1]
+   [Non-Violence or Violence]
 ```
 
 ### **Key Components**
 
 1. **Input Layer**: 128x128x3 RGB images
-2. **Base Model**: MobileNetV2 (frozen layers for transfer learning)
+2. **Base Model**: MobileNetV2 with pooling='avg' (frozen layers for transfer learning)
 3. **Custom Head**:
-   - Global Average Pooling
-   - Dense (256 units, ReLU activation)
-   - Dropout (0.5)
-   - Dense (128 units, ReLU activation)
-   - Dropout (0.3)
-   - Output Dense (2 units, Softmax activation)
+   - Global Average Pooling (built-in to MobileNetV2)
+   - Output Dense (1 unit, Sigmoid activation)
 
 ### **Training Strategy**
 - **Optimizer**: Adam
-- **Loss Function**: Categorical Crossentropy
-- **Metrics**: Accuracy, Precision, Recall
+- **Loss Function**: Binary Crossentropy
+- **Metrics**: Accuracy
 - **Data Split**: 70% Training, 30% Testing
 - **Stratified Sampling**: Balanced class distribution
-- **Batch Size**: 32
-- **Epochs**: 50+ with early stopping
+- **Batch Size**: 4
+- **Epochs**: 50 (best model at epoch 31)
+- **Learning Rate**: Dynamic with exponential decay
 
 ---
 
@@ -212,12 +203,12 @@ Input Video (128x128x3)
    ```python
    IMG_SIZE = 128
    ColorChannels = 3
-   BATCH_SIZE = 32
-   EPOCHS = 50
+   batch_size = 4
+   epochs = 50
    ```
 3. Run all cells sequentially
 4. Monitor training progress and validation accuracy
-5. Model will be saved automatically
+5. Model will be saved automatically as `modelnew.h5`
 
 ### Making Predictions
 
@@ -259,9 +250,12 @@ print(f"Result: {result}, Confidence: {confidence:.2%}")
 ## 📊 Dataset Information
 
 ### **Real Life Violence Dataset**
-- **Total Videos**: 2000+ videos
-- **Violence Videos**: 1000+ real-world violent incidents
-- **Non-Violence Videos**: 1000+ normal activities
+- **Total Available Videos**: 2000+ videos (1000+ Violence, 1000+ NonViolence)
+- **Videos Used for Training**: 700 videos (350 Violence + 350 NonViolence)
+  - *Note: Subset used due to memory constraints*
+- **Total Frames Extracted**: 16,030 frames
+  - Training Set: 11,221 frames (70%)
+  - Test Set: 4,809 frames (30%)
 - **Video Sources**: CCTV footage, surveillance cameras, public videos
 - **Scenarios**: Street fights, assaults, robberies, normal activities
 
@@ -276,12 +270,22 @@ print(f"Result: {result}, Confidence: {confidence:.2%}")
 
 ## 📈 Model Performance
 
-### **Training Results**
-- **Training Accuracy**: ~95%+
-- **Validation Accuracy**: ~90%+
-- **Precision**: High precision in violence detection
-- **Recall**: Effective at catching violent incidents
-- **F1-Score**: Balanced performance
+### **Training Results** (Best Epoch: 31)
+- **Training Accuracy**: 96.17%
+- **Training Loss**: 0.1121
+- **Test Accuracy**: 95.78%
+- **Test Loss**: 0.1163
+
+### **Classification Metrics** (Test Set)
+
+| Class | Precision | Recall | F1-Score | Support |
+|-------|-----------|--------|----------|---------|
+| **NonViolence** | 0.96 | 0.95 | 0.95 | 2243 |
+| **Violence** | 0.96 | 0.96 | 0.96 | 2566 |
+| **Overall** | 0.96 | 0.96 | 0.96 | 4809 |
+
+- **Macro Average**: Precision 0.96, Recall 0.96, F1-Score 0.96
+- **Weighted Average**: Precision 0.96, Recall 0.96, F1-Score 0.96
 
 ### **Inference Speed**
 - **Frame Processing**: ~30-50 FPS (GPU)

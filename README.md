@@ -396,6 +396,4 @@ This project is open source and available under the MIT License.
 
 *Making the world safer with AI* 🛡️🤖
 
-Made with ❤️ by Vibhor Surana
-
 </div>

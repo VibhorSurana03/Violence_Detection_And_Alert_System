@@ -298,7 +298,7 @@ print(f"Result: {result}, Confidence: {confidence:.2%}")
 
 ### **Google Colab Notebook**
 Test the model in Google Colab:
-[Violence Detection Demo](https://colab.research.google.com/drive/1iyJkVsEDwTY-E0fp9miyAN45GepVmJ7z?usp=sharing)
+[Violence Detection Demo](https://colab.research.google.com/drive/15DitYkwIgFJ-LM0nsTFV0Hp2E4oU2m4C?usp=drive_link)
 
 ### **Sample Results**
 - ✅ Successfully detects physical altercations

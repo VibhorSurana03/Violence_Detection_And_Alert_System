@@ -379,10 +379,6 @@ Contributions are welcome! Areas for contribution:
 
 ---
 
-## 📝 License
-
-This project is open source and available under the MIT License.
-
 ---
 
 ## 👨‍💻 Developer
